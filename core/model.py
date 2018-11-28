@@ -7,6 +7,8 @@ from core.utils import Timer
 from keras.layers import Dense, Activation, Dropout, LSTM
 from keras.models import Sequential, load_model
 from keras.callbacks import EarlyStopping, ModelCheckpoint
+from keras import metrics
+from ann_visualizer.visualize import ann_viz
 
 class Model():
 	"""A class for an building and inferencing an lstm model"""
@@ -37,7 +39,7 @@ class Model():
 			if layer['type'] == 'dropout':
 				self.model.add(Dropout(dropout_rate))
 
-		self.model.compile(loss=configs['model']['loss'], optimizer=configs['model']['optimizer'])
+		self.model.compile(loss=configs['model']['loss'], optimizer=configs['model']['optimizer'], metrics=configs['model']['metrics'])
 
 		print('[Model] Model Compiled')
 		timer.stop()
@@ -117,3 +119,6 @@ class Model():
 			curr_frame = curr_frame[1:]
 			curr_frame = np.insert(curr_frame, [window_size-2], predicted[-1], axis=0)
 		return predicted
+
+	# # # def graph_stuff(self):
+	# # # 	ann_viz(self.model, title="My first neural network")

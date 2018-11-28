@@ -10,6 +10,7 @@ import math
 import matplotlib.pyplot as plt
 from core.data_processor import DataLoader
 from core.model import Model
+from ann_visualizer.visualize import ann_viz
 
 
 def plot_results(predicted_data, true_data):
@@ -18,7 +19,9 @@ def plot_results(predicted_data, true_data):
     ax.plot(true_data, label='True Data')
     plt.plot(predicted_data, label='Prediction')
     plt.legend()
-    plt.show()
+    #plt.show()
+
+    plt.savefig('graphpic.png')
 
 
 def plot_results_multiple(predicted_data, true_data, prediction_len):
@@ -30,7 +33,9 @@ def plot_results_multiple(predicted_data, true_data, prediction_len):
         padding = [None for p in range(i * prediction_len)]
         plt.plot(padding + data, label='Prediction')
         plt.legend()
-    plt.show()
+    #plt.show()
+
+    plt.savefig('graphpic.png')
 
 
 def main():
@@ -79,12 +84,16 @@ def main():
         normalise=configs['data']['normalise']
     )
 
-    predictions = model.predict_sequences_multiple(x_test, configs['data']['sequence_length'], configs['data']['sequence_length'])
-    # predictions = model.predict_sequence_full(x_test, configs['data']['sequence_length'])
-    # predictions = model.predict_point_by_point(x_test)
+    #predictions = model.predict_sequences_multiple(x_test, configs['data']['sequence_length'], configs['data']['sequence_length'])
+    #predictions = model.predict_sequence_full(x_test, configs['data']['sequence_length'])
+    predictions = model.predict_point_by_point(x_test)
 
-    plot_results_multiple(predictions, y_test, configs['data']['sequence_length'])
-    # plot_results(predictions, y_test)
+    #plot_results_multiple(predictions, y_test, configs['data']['sequence_length'])
+    plot_results(predictions, y_test)
+
+    
+
+    ### model.graph_stuff()
 
 
 if __name__ == '__main__':
